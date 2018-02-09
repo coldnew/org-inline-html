@@ -167,7 +167,7 @@ Return output file's name."
 				    "html")))
 	 (file (org-export-output-file-name extension subtreep))
 	 (org-export-coding-system org-html-coding-system))
-    (org-export-to-file 'html file
+    (org-export-to-file 'mhtml file
       async subtreep visible-only body-only ext-plist)))
 
 

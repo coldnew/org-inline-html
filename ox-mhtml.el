@@ -1,10 +1,10 @@
-;;; ox-mthml.el --- Export org-mode to MHTML format
+;;; ox-mhtml.el --- Export org-mode to MHTML format
 
 ;; Copyright (c) 2018 Yen-Chin, Lee. (coldnew) <coldnew.tw@gmail.com>
 ;;
 ;; Author: coldnew <coldnew.tw@gmail.com>
 ;; Keywords:
-;; X-URL: http://github.com/coldnew/org-mthml
+;; X-URL: http://github.com/coldnew/org-mhtml
 ;; Version: 0.1
 ;; Package-Requires: ((org "9.0"))
 
@@ -184,5 +184,5 @@ Return output file's name."
       async subtreep visible-only body-only ext-plist)))
 
 
-(provide 'ox-mthml)
+(provide 'ox-mhtml)
 ;;; ox-mhtml.el ends here

@@ -1,7 +1,11 @@
-#+TITLE: ox-mthml
+#+TITLE: ox-mhtml
 
 #+BEGIN_QUOTE
 This project is under development. THIS IS ALPHA RELEASE.
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+This project may be renamed later
 #+END_QUOTE
 
 Export org-mode to MHTML (MIME HTML) with is a webpage archive format that with resources such as image.

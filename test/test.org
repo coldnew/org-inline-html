@@ -1,0 +1,11 @@
+#+TITLE: Test Page for ox-mhtml
+
+* About
+
+This lis test page for ox-mhtml, which is used for test embedded image when use =org-mhtml-export-*= functiopn
+
+* The image
+
+This image is download from [[https://www.gnu.org/software/emacs/][Emacs's website]], so let's try it:
+
+[[file:emacs.png]]

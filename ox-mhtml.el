@@ -71,10 +71,10 @@ In this function, we also add link file"
     (replace-regexp-in-string
      "src=\"\\([^\"]+\\)\""
      (lambda (text)
-       (let* ((path (and (string-match "src=\"\\([^\"]+\\)\"" text)
-			 (match-string 1 text)))
+       (let* ((url (and (string-match "src=\"\\([^\"]+\\)\"" text)
+			(match-string 1 text)))
+	      (path (replace-regexp-in-string "^file://" "" url))
 	      (ext (file-name-extension path)))
-
 	 (format "src=\"data:image/%s;base64,%s\" %s"
 		 ext
 		 (base64-encode-string

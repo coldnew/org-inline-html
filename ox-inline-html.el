@@ -1,10 +1,10 @@
-;;; ox-dhtml.el --- Export org-mode to HTML with data uri scheme
+;;; ox-inline-html.el --- Export org-mode to HTML with inline image and css
 
 ;; Copyright (c) 2018 Yen-Chin, Lee. (coldnew) <coldnew.tw@gmail.com>
 ;;
 ;; Author: coldnew <coldnew.tw@gmail.com>
 ;; Keywords:
-;; X-URL: http://github.com/coldnew/org-dhtml
+;; X-URL: http://github.com/coldnew/org-inline-html
 ;; Version: 0.1
 ;; Package-Requires: ((org "9.0"))
 
@@ -34,74 +34,74 @@
 
 ;;;; Group and Customize options
 
-(defgroup org-export-dhtml nil
+(defgroup org-export-inline-html nil
   "Options for exporting Org mode files to MHTML format."
-  :tag "Org Export to HTML with data uri scheme."
-  :group 'org-export-dhtml
-  :link '(url-link :tag "Github" "https://github.com/coldnew/org-dhtml"))
+  :tag "Org Export to HTML with inline image and css."
+  :group 'org-export-inline-html
+  :link '(url-link :tag "Github" "https://github.com/coldnew/org-inline-html"))
 
-(defcustom org-dhtml-extension "html"
-  "The extension for exported HTML files with data uri scheme."
-  :group 'org-export-dhtml
+(defcustom org-inline-html-extension "html"
+  "The extension for exported HTML files with inline images and css."
+  :group 'org-export-inline-html
   :type 'string)
 
 
 ;;;; Backend
 
-(org-export-define-derived-backend 'dhtml 'html
+(org-export-define-derived-backend 'inline-html 'html
   :translate-alist
   '(;; drop most of nouse html header
     ;; (template . org-hexo-html-template)
     ;; Fix for multibyte language
-    (paragraph . org-dhtml-paragraph)
+    (paragraph . org-inline-html-paragraph)
     ;; Fix toc for org-hexo theme
     ;; (inner-template . org-hexo-html-inner-template)
     ;; convert relative link to let pelican can recognize
-    (link . org-dhtml-link)
+    (link . org-inline-html-link)
     )
   ;; :options-alist org-mhtml-options-alist
   )
 
 ;;;; Links
 
-(defun org-dhtml-link (link desc info)
+(defun org-inline-html-link (link desc info)
   "Transcode a LINK object from Org to MHTML.
 DESC is the description part of the link, or the empty string.
 INFO is a plist holding contextual information.  See
 `org-export-data'.
 In this function, we also add link file"
   (let ((org-html-link-org-files-as-html nil)
-	(html-link (org-html-link link desc info)))
+        (html-link (org-html-link link desc info)))
     ;; replace images in html and encoding to base64
     (replace-regexp-in-string
      "src=\"\\([^\"]+\\)\""
      (lambda (text)
        (let* ((url (and (string-match "src=\"\\([^\"]+\\)\"" text)
-			(match-string 1 text)))
-	      (path (replace-regexp-in-string "^file://" "" url))
-	      (ext (file-name-extension path)))
-	 (format "src=\"data:image/%s;base64,%s\" %s"
-		 ext
-		 (base64-encode-string
-		  (with-temp-buffer
-		    (insert-file-contents-literally path)
-		    (buffer-string)))
-		 (file-name-nondirectory path))))
+                        (match-string 1 text)))
+              (path (replace-regexp-in-string "^file://" "" url))
+              (ext (file-name-extension path)))
+         (format "src=\"data:image/%s;base64,%s\" %s"
+                 ext
+                 (base64-encode-string
+                  (with-temp-buffer
+                    (insert-file-contents-literally path)
+                    (buffer-string)))
+                 (file-name-nondirectory path))))
      html-link)))
 
 ;;;; Paragraph
 
-(defun org-dhtml-paragraph (paragraph contents info)
+(defun org-inline-html-paragraph (paragraph contents info)
   "Transcode PARAGRAPH element into MHTML format.
 CONTENTS is the paragraph contents.  INFO is a plist used as
 a communication channel."
   (let* (;; Fix multibyte language like chinese will be automatically add
-	 ;; some space since org-mode will transpose auto-fill-mode's space
-	 ;; to newline char.
-	 (fixed-regexp "[[:multibyte:]]")
-	 (fixed-contents
-	  (replace-regexp-in-string
-	   (concat "\\(" fixed-regexp "\\) *\n *\\(" fixed-regexp "\\)") "\\1\\2" contents)))
+         ;; some space since org-mode will transpose auto-fill-mode's space
+         ;; to newline char.
+         (fixed-regexp "[[:multibyte:]]")
+         (fixed-contents
+          (replace-regexp-in-string
+           (concat "\\(" fixed-regexp "\\) *\n *\\(" fixed-regexp "\\)") "\\1\\2" contents)))
     ;; Add our changes to org-html-paragraph
     (org-html-paragraph paragraph fixed-contents info)))
 
@@ -110,9 +110,9 @@ a communication channel."
 
 
 ;;;###autoload
-(defun org-dhtml-export-as-html
+(defun org-inline-html-export-as-html
     (&optional async subtreep visible-only body-only ext-plist)
-  "Export current buffer to an MHTML buffer.
+  "Export current buffer to an inline HTML buffer.
 
 If narrowing is active in the current buffer, only export its
 narrowed part.
@@ -137,16 +137,16 @@ EXT-PLIST, when provided, is a property list with external
 parameters overriding Org default settings, but still inferior to
 file-local settings.
 
-Export is done in a buffer named \"*Org MHTML Export*\", which
+Export is done in a buffer named \"*Org Inline HTML Export*\", which
 will be displayed when `org-export-show-temporary-export-buffer'
 is non-nil."
   (interactive)
-  (org-export-to-buffer 'dhtml "*Org DHTML Export*"
+  (org-export-to-buffer 'inline-html "*Org Inline HTML Export*"
     async subtreep visible-only body-only ext-plist
     (lambda () (html-mode))))
 
 ;;;###autoload
-(defun org-dhtml-export-to-html
+(defun org-inline-html-export-to-html
     (&optional async subtreep visible-only body-only ext-plist)
   "Export current buffer to a HTML file.
 
@@ -176,13 +176,13 @@ file-local settings.
 Return output file's name."
   (interactive)
   (let* ((extension (concat "." (or (plist-get ext-plist :html-extension)
-				    org-dhtml-extension
-				    "html")))
-	 (file (org-export-output-file-name extension subtreep))
-	 (org-export-coding-system org-html-coding-system))
+                                    org-inline-html-extension
+                                    "html")))
+         (file (org-export-output-file-name extension subtreep))
+         (org-export-coding-system org-html-coding-system))
     (org-export-to-file 'dhtml file
       async subtreep visible-only body-only ext-plist)))
 
 
-(provide 'ox-dhtml)
-;;; ox-dhtml.el ends here
+(provide 'ox-inline-html)
+;;; ox-inline-html.el ends here

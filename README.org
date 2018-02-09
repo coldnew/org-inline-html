@@ -1,4 +1,4 @@
-#+TITLE: ox-dhtml
+#+TITLE: org-inline-html
 
 #+BEGIN_QUOTE
 This project is under development. THIS IS ALPHA RELEASE.

@@ -5,3 +5,12 @@ This project is under development. THIS IS ALPHA RELEASE.
 #+END_QUOTE
 
 Export org-mode to MHTML (MIME HTML) with is a webpage archive format that with resources such as image.
+
+* References
+
+This project can't be done without these people's work:
+
+- [[https://www.reddit.com/r/orgmode/comments/7dyywu/creating_a_selfcontained_html/][reddit: Creating a selfcontained HTML]]
+- [[https://emacs.stackexchange.com/questions/27060/embed-image-as-base64-on-html-export-from-orgmode][emacs.stackexchange: Embed Image as Base64 on HTML export from Orgmode]]
+- [[https://stackoverflow.com/questions/19614104/how-to-tell-org-mode-to-embed-my-css-file-on-html-export][stackoverflow: how to tell org-mode to embed my css file on HTML export?]]
+- [[https://github.com/org-mime/org-mime/blob/master/org-mime.el][org-mime: org-mime can be used to send HTML email using Org-mode HTML export.]]

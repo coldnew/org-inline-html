@@ -1,10 +1,10 @@
-;;; ox-mhtml.el --- Export org-mode to MHTML format
+;;; ox-dhtml.el --- Export org-mode to HTML with data uri scheme
 
 ;; Copyright (c) 2018 Yen-Chin, Lee. (coldnew) <coldnew.tw@gmail.com>
 ;;
 ;; Author: coldnew <coldnew.tw@gmail.com>
 ;; Keywords:
-;; X-URL: http://github.com/coldnew/org-mhtml
+;; X-URL: http://github.com/coldnew/org-dhtml
 ;; Version: 0.1
 ;; Package-Requires: ((org "9.0"))
 
@@ -34,37 +34,37 @@
 
 ;;;; Group and Customize options
 
-(defgroup org-export-mhtml nil
+(defgroup org-export-dhtml nil
   "Options for exporting Org mode files to MHTML format."
-  :tag "Org Export to MHTML format."
-  :group 'org-export-mhtml
-  :link '(url-link :tag "Github" "https://github.com/coldnew/org-mhtml"))
+  :tag "Org Export to HTML with data uri scheme."
+  :group 'org-export-dhtml
+  :link '(url-link :tag "Github" "https://github.com/coldnew/org-dhtml"))
 
-(defcustom org-mhtml-extension "html"
-  "The extension for exported MHTML files."
-  :group 'org-export-mhtml
+(defcustom org-dhtml-extension "html"
+  "The extension for exported HTML files with data uri scheme."
+  :group 'org-export-dhtml
   :type 'string)
 
 
 ;;;; Backend
 
-(org-export-define-derived-backend 'mhtml 'html
+(org-export-define-derived-backend 'dhtml 'html
   :translate-alist
   '(;; drop most of nouse html header
     ;; (template . org-hexo-html-template)
     ;; Fix for multibyte language
-    (paragraph . org-mhtml-paragraph)
+    (paragraph . org-dhtml-paragraph)
     ;; Fix toc for org-hexo theme
     ;; (inner-template . org-hexo-html-inner-template)
     ;; convert relative link to let pelican can recognize
-    (link . org-mhtml-link)
+    (link . org-dhtml-link)
     )
   ;; :options-alist org-mhtml-options-alist
   )
 
 ;;;; Links
 
-(defun org-mhtml-link (link desc info)
+(defun org-dhtml-link (link desc info)
   "Transcode a LINK object from Org to MHTML.
 DESC is the description part of the link, or the empty string.
 INFO is a plist holding contextual information.  See
@@ -91,7 +91,7 @@ In this function, we also add link file"
 
 ;;;; Paragraph
 
-(defun org-mhtml-paragraph (paragraph contents info)
+(defun org-dhtml-paragraph (paragraph contents info)
   "Transcode PARAGRAPH element into MHTML format.
 CONTENTS is the paragraph contents.  INFO is a plist used as
 a communication channel."
@@ -110,7 +110,7 @@ a communication channel."
 
 
 ;;;###autoload
-(defun org-mhtml-export-as-html
+(defun org-dhtml-export-as-html
     (&optional async subtreep visible-only body-only ext-plist)
   "Export current buffer to an MHTML buffer.
 
@@ -141,12 +141,12 @@ Export is done in a buffer named \"*Org MHTML Export*\", which
 will be displayed when `org-export-show-temporary-export-buffer'
 is non-nil."
   (interactive)
-  (org-export-to-buffer 'mhtml "*Org MHTML Export*"
+  (org-export-to-buffer 'dhtml "*Org DHTML Export*"
     async subtreep visible-only body-only ext-plist
     (lambda () (html-mode))))
 
 ;;;###autoload
-(defun org-mhtml-export-to-html
+(defun org-dhtml-export-to-html
     (&optional async subtreep visible-only body-only ext-plist)
   "Export current buffer to a HTML file.
 
@@ -176,13 +176,13 @@ file-local settings.
 Return output file's name."
   (interactive)
   (let* ((extension (concat "." (or (plist-get ext-plist :html-extension)
-				    org-mhtml-extension
+				    org-dhtml-extension
 				    "html")))
 	 (file (org-export-output-file-name extension subtreep))
 	 (org-export-coding-system org-html-coding-system))
-    (org-export-to-file 'mhtml file
+    (org-export-to-file 'dhtml file
       async subtreep visible-only body-only ext-plist)))
 
 
-(provide 'ox-mhtml)
-;;; ox-mhtml.el ends here
+(provide 'ox-dhtml)
+;;; ox-dhtml.el ends here

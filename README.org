@@ -1,4 +1,4 @@
-#+TITLE: ox-mhtml
+#+TITLE: ox-dhtml
 
 #+BEGIN_QUOTE
 This project is under development. THIS IS ALPHA RELEASE.
@@ -8,7 +8,7 @@ This project is under development. THIS IS ALPHA RELEASE.
 This project may be renamed later
 #+END_QUOTE
 
-Export org-mode to MHTML (MIME HTML) with is a webpage archive format that with resources such as image.
+Export org-mode to HTML with resources such as image embedded in base64 format ([[https://en.wikipedia.org/wiki/Data_URI_scheme][Data URI scheme]]).
 
 * References
 

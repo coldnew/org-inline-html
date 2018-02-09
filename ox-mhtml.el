@@ -40,7 +40,7 @@
   :group 'org-export-mhtml
   :link '(url-link :tag "Github" "https://github.com/coldnew/org-mhtml"))
 
-(defcustom org-html-extension "html"
+(defcustom org-mhtml-extension "html"
   "The extension for exported MHTML files."
   :group 'org-export-mhtml
   :type 'string)

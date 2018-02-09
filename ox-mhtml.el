@@ -71,34 +71,18 @@ In this function, we also add link file"
     (replace-regexp-in-string
      "src=\"\\([^\"]+\\)\""
      (lambda (text)
-       (let* ((url (and (string-match "src=\"\\([^\"]+\\)\"" text)
-			(match-string 1 text)))
-	      (path ;; (if (string-match-p "^file:///" url)
-
-	       ;;       (file-name-directory
-	       ;;        (replace-regexp-in-string "^file://" "" url))
-	       ;;       ;; (expand-file-name url (file-name-directory current-file))
-	       ;;       ""
-	       ;;       )
-	       url
-	       )
+       (let* ((path (and (string-match "src=\"\\([^\"]+\\)\"" text)
+			 (match-string 1 text)))
 	      (ext (file-name-extension path)))
 
-	 (format "src=\"data:image/%s;base64,%s\""
+	 (format "src=\"data:image/%s;base64,%s\" %s"
 		 ext
 		 (base64-encode-string
 		  (with-temp-buffer
 		    (insert-file-contents-literally path)
 		    (buffer-string)))
-		 (file-name-nondirectory path))
-
-	 )
-
-       )
-     html-link
-     )
-    )
-  )
+		 (file-name-nondirectory path))))
+     html-link)))
 
 ;;;; Paragraph
 

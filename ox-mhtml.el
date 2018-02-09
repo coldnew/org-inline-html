@@ -4,7 +4,7 @@
 ;;
 ;; Author: coldnew <coldnew.tw@gmail.com>
 ;; Keywords:
-;; X-URL: http://github.com/coldnew/ox-mthml
+;; X-URL: http://github.com/coldnew/org-mthml
 ;; Version: 0.1
 ;; Package-Requires: ((org "9.0"))
 
@@ -34,11 +34,16 @@
 
 ;;;; Group and Customize options
 
-(defgroup ox-mhtml nil
+(defgroup org-export-mhtml nil
   "Options for exporting Org mode files to MHTML format."
-  :tag "Org Export to MTHML format."
-  :group 'ox-mhtml
-  :link '(url-link :tag "Github" "https://github.com/coldnew/ox-mhtml"))
+  :tag "Org Export to MHTML format."
+  :group 'org-export-mhtml
+  :link '(url-link :tag "Github" "https://github.com/coldnew/org-mhtml"))
+
+(defcustom org-html-extension "html"
+  "The extension for exported MHTML files."
+  :group 'org-export-mhtml
+  :type 'string)
 
 
 ;;;; Backend
@@ -54,7 +59,7 @@
     ;; convert relative link to let pelican can recognize
     (link . org-mhtml-link)
     )
-  ;; :options-alist org-mthml-options-alist
+  ;; :options-alist org-mhtml-options-alist
   )
 
 ;;;; Links
@@ -87,7 +92,7 @@ In this function, we also add link file"
 ;;;; Paragraph
 
 (defun org-mhtml-paragraph (paragraph contents info)
-  "Transcode PARAGRAPH element into MTHML format.
+  "Transcode PARAGRAPH element into MHTML format.
 CONTENTS is the paragraph contents.  INFO is a plist used as
 a communication channel."
   (let* (;; Fix multibyte language like chinese will be automatically add
@@ -147,7 +152,7 @@ file-local settings.
 Return output file's name."
   (interactive)
   (let* ((extension (concat "." (or (plist-get ext-plist :html-extension)
-				    org-html-extension
+				    org-mhtml-extension
 				    "html")))
 	 (file (org-export-output-file-name extension subtreep))
 	 (org-export-coding-system org-html-coding-system))
